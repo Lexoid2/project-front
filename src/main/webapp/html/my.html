@@ -1,11 +1,45 @@
-<html>
-<head>
-    <title>RPG</title>
-    <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
-    <link href="/css/my.css" rel="stylesheet">
-</head>
-<body>
-<h1>RPG admin panel</h1>
+<!DOCTYPE html>
 
-</body>
+<html lang="en">
+    <head>
+        <title>RPG</title>
+        <meta charset="utf-8">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+        <script src="/js/script.js" defer></script>
+        <link href="/css/my.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <h1>RPG admin panel</h1>
+        <h2>Accounts List:</h2>
+
+        <div>Count per page:
+            <label for="rowsLimiter" class="visually-hidden">Select count per page:</label>
+            <select id="rowsLimiter">
+                <option value="3" selected>3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Race</th>
+                    <th>Profession</th>
+                    <th>Level</th>
+                    <th>Birthday</th>
+                    <th>Banned</th>
+                </tr>
+            </thead>
+
+            <tbody id="playersInfo"></tbody>
+        </table>
+
+        <div id="buttonsContainer"></div>
+    </body>
 </html>
