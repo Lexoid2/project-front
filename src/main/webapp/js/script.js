@@ -18,6 +18,8 @@ let playersInformationAdder = function (players) {
                 <td>${player.level}</td>
                 <td>${new Date(player.birthday).toLocaleDateString()}</td>
                 <td>${player.banned}</td>
+                <td><img src="/img/edit.png" alt="Edit account" data-id="${player.id}" class="editIcon"></td>
+                <td><img src="/img/delete.png" alt="Delete account" data-id="${player.id}" class="deleteIcon"></td>
             </tr>`;
     }
 
@@ -25,7 +27,7 @@ let playersInformationAdder = function (players) {
 }
 
 // Function to add pagination buttons
-let buttonsAdder = function () {
+let buttonsAdder = function (stayOnCurrentPage) {
     rowsHtml = 'Pages:';
     let pagesLimit = Math.ceil(playersCount / parseDropdown());
 
@@ -35,32 +37,51 @@ let buttonsAdder = function () {
 
     $('#buttonsContainer').html(rowsHtml);
 
-    currentPage = $('#page1')[0];
-    currentPage.style.color = 'red';
+    if (stayOnCurrentPage)
+        updateCurrentPageButton($(`#page${currentPage.textContent}`)[0]);
+    else
+        updateCurrentPageButton($('#page1')[0]);
 };
 
+// Function to update the active pagination button
+function updateCurrentPageButton(newPage, clickAnotherButton) {
+    if (clickAnotherButton)
+        currentPage.style.color = 'black';
+
+    currentPage = newPage;
+    currentPage.style.color = 'red';
+}
+
 // Function to handle page change and dropdown value change
-let changePageContext = function(pressedButton, dropdownValueChanged) {
+let changePageContext = function(pressedButton, dropdownValueChanged, stayOnCurrentPage) {
     if (dropdownValueChanged) {
         pressedButton = $('#page1')[0];
         currentPage = pressedButton;
     }
 
-    $.ajax({
-        url: `rest/players?pageNumber=${parseInt(pressedButton.textContent) - 1}&pageSize=${parseDropdown()}`,
-        method: 'GET'
+    $.get('rest/players', {
+        pageNumber: `${parseInt(pressedButton.textContent) - 1}`,
+        pageSize: `${parseDropdown()}`
     }).done(function(data) {
-        playersInformationAdder(data);
+        if (data.length !== 0)
+            playersInformationAdder(data);
+        else {
+            updateCurrentPageButton($(`#page${parseInt(currentPage.textContent) - 1}`)[0]);
+            changePageContext(currentPage, false, true);
+            return;
+        }
 
         if (dropdownValueChanged)
             buttonsAdder();
+        else if (stayOnCurrentPage)
+            buttonsAdder(stayOnCurrentPage);
     });
 }
 
 // Initial data load
 $.when(
-    $.ajax('/rest/players/count'),
-    $.ajax('/rest/players')
+    $.get('/rest/players/count'),
+    $.get('/rest/players')
 ).done(function(countResponse, playersResponse) {
     playersCount = countResponse[0];
     let playersData = playersResponse[0];
@@ -73,13 +94,22 @@ $.when(
 $('#buttonsContainer').on('click', 'button', function () {
     changePageContext(this);
 
-    if (currentPage !== this) {
-        currentPage.style.color = 'black';
-        currentPage = this;
-        this.style.color = 'red';
-    }
+    if (currentPage !== this)
+        updateCurrentPageButton(this, true);
 });
 
 $rowsLimiter.change(function () {
     changePageContext(currentPage, true);
+});
+
+// Event handler for clicking on the delete user icon.
+// Sends a request to delete an account and updates the content on the page
+$('#playersInfo').on('click', '.deleteIcon', function () {
+    $.ajax({
+        url: `/rest/players/${$(this).data('id')}`,
+        type: 'DELETE'
+    }).done(function () {
+        playersCount--;
+        changePageContext(currentPage, false, true);
+    })
 });
