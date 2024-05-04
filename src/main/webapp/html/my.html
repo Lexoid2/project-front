@@ -4,8 +4,11 @@
     <head>
         <title>RPG</title>
         <meta charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
         <script src="/js/script.js" defer></script>
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/my.css" rel="stylesheet">
     </head>
 
@@ -13,8 +16,9 @@
         <h1>RPG admin panel</h1>
         <h2>Accounts List:</h2>
 
-        <div>Count per page:
-            <label for="rowsLimiter" class="visually-hidden">Select count per page:</label>
+        <div>
+            <label for="rowsLimiter">Count per page:</label>
+
             <select id="rowsLimiter">
                 <option value="3" selected>3</option>
                 <option value="5">5</option>
@@ -44,4 +48,86 @@
 
         <div id="buttonsContainer"></div>
     </body>
+
+    <hr>
+
+    <div class="elementsGroup">
+        <h2>Create new account:</h2>
+
+        <div class="form-row">
+            <label for="setName">Name:</label>
+            <input id="setName" type="text" minlength="1" maxlength="12">
+        </div>
+
+        <div class="form-row">
+            <label for="setTitle">Title:</label>
+            <input id="setTitle" type="text" minlength="1" maxlength="30">
+        </div>
+
+        <div class="form-row">
+            <label for="setRace">Race:</label>
+
+            <select id="setRace">
+                <option value="human" selected>HUMAN</option>
+                <option value="dwarf">DWARF</option>
+                <option value="elf">ELF</option>
+                <option value="giant">GIANT</option>
+                <option value="orc">ORC</option>
+                <option value="troll">TROLL</option>
+                <option value="hobbit">HOBBIT</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="setProfession">Profession:</label>
+
+            <select id="setProfession">
+                <option value="warrior" selected>WARRIOR</option>
+                <option value="rogue">ROGUE</option>
+                <option value="sorcerer">SORCERER</option>
+                <option value="cleric">CLERIC</option>
+                <option value="paladin">PALADIN</option>
+                <option value="nazgul">NAZGUL</option>
+                <option value="warlock">WARLOCK</option>
+                <option value="druid">DRUID</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="setLevel">Level:</label>
+            <input id="setLevel" type="number" min="0" max="100">
+        </div>
+
+        <div class="form-row">
+            <label for="setBirthday">Birthday:</label>
+            <input id="setBirthday" type="date">
+        </div>
+
+        <div class="form-row">
+            <label for="setBanInfo">Banned:</label>
+
+            <select id="setBanInfo">
+                <option value="false" selected>false</option>
+                <option value="true">true</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <button id="saveButton">
+                <img src="/img/save.png" alt="Save">
+            </button>
+        </div>
+    </div>
+
+    <div id="popupDeletionWarning" class="popup" style="display: none;">Editing mode activated!
+        Save the data and return to deleting the item</div>
+
+    <div id="popupCreateError" class="popup" style="display: none;">The operation to create a new account was rejected.
+        You entered incorrect data! Try again</div>
+
+    <div id="popupEditError" class="popup" style="display: none;">An error occurred while editing data!
+        Check the entered data and try again</div>
+
+    <div id="popupEditWarning" class="popup" style="display: none;">Finish editing the current element
+        before moving on to the next! You need to save your changes</div>
 </html>

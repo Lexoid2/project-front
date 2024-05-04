@@ -9,6 +9,57 @@
     border: 0;
 }
 
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1050;
+    width: 350px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.pageButton {
+    margin: 4px 4px 4px;
+}
+
+.elementsGroup {
+    max-width: 225px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-row label {
+    text-align: left;
+    flex-basis: 75px;
+}
+
+.form-row input, .form-row select {
+    width: 125px;
+}
+
+.form-row button {
+    margin-left: auto;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 20px 0;
+}
+
 th, td {
     border: 1px solid black;
 }
